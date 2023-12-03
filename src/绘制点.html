@@ -11,6 +11,24 @@
 </body>
 <script>
 window.onload = init
+let webgl
+let projMat4
+// 顶点着色器
+let vertexString = `
+  attribute vec4 a_position;
+  uniform mat4 proj;
+  void main() {
+    gl_Position = proj * a_position;
+    gl_PointSize = 60.0;
+  }
+  `
+
+  // 片元着色器
+let  fragmentString = `
+void main() {
+  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+}
+`
 function init() {
   console.log('init')
   initWebgl();
@@ -21,13 +39,17 @@ function init() {
 
 function initWebgl() {
   let webglDiv = document.getElementById('webglCanvas');
-  let weblg = webglDiv.getContext('webgl');
-  
-
+  webgl = webglDiv.getContext('webgl');
+  webgl.viewport(0, 0, webglDiv.clientWidth, webglDiv.clientHeight);
+  // 投影坐标系
+  webgl.ortho(0, webglDiv.clientWidth, webglDiv.clientHeight, 0, -1, 1, projMat4);
 }
 
 function initShader() {
-
+  let vsshader = webgl.createShader(webgl.VERTEX_SHADER);
+  let fssagder = webgl.createShader(webgl.FRAGMENT_SHADER);
+  webgl.shaderSource(vsshader, vertexString);
+  webgl.shaderSource(fssagder, fragmentString);
 }
 
 function initBuffer() {
