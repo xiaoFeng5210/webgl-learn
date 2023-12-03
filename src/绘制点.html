@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>webgl</title>
+  <script src="./lib/glmatrix.min.js"></script>
+</head>
+<body>
+  <canvas id="webglCanvas" width="500" height="500"></canvas>
+</body>
+<script>
+window.onload = init
+function init() {
+  console.log('init')
+  initWebgl();
+  initShader();
+  initBuffer();
+  draw();
+}
+
+function initWebgl() {
+  let webglDiv = document.getElementById('webglCanvas');
+  let weblg = webglDiv.getContext('webgl');
+  
+
+}
+
+function initShader() {
+
+}
+
+function initBuffer() {
+
+}
+
+function draw() {
+
+}
+
+</script>
+</html>
