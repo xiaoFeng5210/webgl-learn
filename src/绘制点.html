@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>webgl</title>
   <script src="./lib/glmatrix.min.js"></script>
 </head>
-<body>
+
+<body onload="init">
   <canvas id="webglCanvas" width="500" height="500"></canvas>
 </body>
 <script>
-window.onload = init
-let webgl
-let projMat4
-// 顶点着色器
-let vertexString = `
+  let webgl
+  let projMat4
+  // 顶点着色器
+  let vertexString = `
   attribute vec4 a_position;
   uniform mat4 proj;
   void main() {
@@ -24,41 +25,54 @@ let vertexString = `
   `
 
   // 片元着色器
-let  fragmentString = `
+  let fragmentString = `
 void main() {
   gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 }
 `
-function init() {
-  console.log('init')
-  initWebgl();
-  initShader();
-  initBuffer();
-  draw();
-}
+  function init() {
+    console.log('init')
+    initWebgl();
+    initShader();
+    initBuffer();
+    draw();
+  }
 
-function initWebgl() {
-  let webglDiv = document.getElementById('webglCanvas');
-  webgl = webglDiv.getContext('webgl');
-  webgl.viewport(0, 0, webglDiv.clientWidth, webglDiv.clientHeight);
-  // 投影坐标系
-  webgl.ortho(0, webglDiv.clientWidth, webglDiv.clientHeight, 0, -1, 1, projMat4);
-}
+  function initWebgl() {
+    let webglDiv = document.getElementById('webglCanvas');
+    webgl = webglDiv.getContext('webgl');
+    webgl.viewport(0, 0, webglDiv.clientWidth, webglDiv.clientHeight);
+    // 投影坐标系
+    webgl.ortho(0, webglDiv.clientWidth, webglDiv.clientHeight, 0, -1, 1, projMat4);
+  }
 
-function initShader() {
-  let vsshader = webgl.createShader(webgl.VERTEX_SHADER);
-  let fssagder = webgl.createShader(webgl.FRAGMENT_SHADER);
-  webgl.shaderSource(vsshader, vertexString);
-  webgl.shaderSource(fssagder, fragmentString);
-}
+  function initShader() {
+    let vsshader = webgl.createShader(webgl.VERTEX_SHADER);
+    let fssagder = webgl.createShader(webgl.FRAGMENT_SHADER);
+    webgl.shaderSource(vsshader, vertexString);
+    webgl.shaderSource(fssagder, fragmentString);
+    // 编译
+    webgl.compileShader(vsshader);
+    webgl.compileShader(fssagder);
 
-function initBuffer() {
+    let program = webgl.createProgram();
+    webgl.attachShader(program, vsshader);
+    webgl.attachShader(program, fssagder);
 
-}
+    webgl.linkProgram(program);
+    webgl.useProgram(program);
 
-function draw() {
+    webgl.program = program;
+  }
 
-}
+  function initBuffer() {
+
+  }
+
+  function draw() {
+
+  }
 
 </script>
+
 </html>
